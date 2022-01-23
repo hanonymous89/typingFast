@@ -337,7 +337,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
     static double count;
     static int back;
     static h::ResizeManager rm;
-    static  web::http::client::http_client client(L"database");
+    static  web::http::client::http_client client(L"https://script.google.com/macros/s/AKfycbx4R3ki7xY6bTxgtCt-k5Gb1LXz5GNW9dKdWclabS-fz7zwazA/exec");
     enum MSG {
         showList
     };
@@ -357,7 +357,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
                     client.request(web::http::methods::POST, L"", web::uri::encode_uri((h::stringToWstring("name=" + user[0] + "&&password=" + user[1]) + L"&&score=" + std::to_wstring(score)).c_str()), L"application/x-www-form-urlencoded");
             }
             timer.start();
-            count = 0;
+            back=count = 0;
             
         });
     PAINTSTRUCT ps;
@@ -392,7 +392,10 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
         rm.resize();//サブクラスか
         break;
     case WM_CHAR:
-        if (!back&&wp == VK_BACK) {//==0
+        if (wp == VK_ESCAPE) {
+            typing.restart();
+        }
+        else if (!back&&wp == VK_BACK) {//==0
             typing.back();
         }
         else if (!(back and 0 <= (back += (wp == VK_BACK) * -2 + 1))) {
