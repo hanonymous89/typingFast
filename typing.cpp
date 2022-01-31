@@ -314,7 +314,7 @@ namespace h {
                 restart();
                 return *this;
             }
-            h::shuffle(&question);
+            //h::shuffle(&question);
             return *this;
         }
         auto& back() {
